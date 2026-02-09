@@ -24,15 +24,6 @@ You can access the application here: [https://unlicensed-mystic.github.io/smart-
 * **JavaScript (ES6+)**: Functional logic for data persistence and dynamic UI rendering.
 * **Google Fonts**: 'Outfit' and 'Space Mono' for a modern, tech-focused aesthetic.
 
-## 📂 Project Structure
-
-```text
-smart-study-planner/
-├── index.html    # Core layout and modals
-├── styles.css    # Responsive styling and themes
-├── logic.js      # Application logic and state management
-└── README.md     # Project documentation
-
 📝 How to Use
 Follow these steps to get the project running on your local machine:
 
@@ -55,5 +46,17 @@ Double-click it to open it in your default web browser.
 Go to the Subjects tab first to add your current courses.
 
 Once subjects are added, use the Schedule and Tasks tabs to organize your workload.
+
+## 📂 Project Structure
+
+```text
+smart-study-planner/
+├── index.html    # Core layout and modals
+├── styles.css    # Responsive styling and themes
+├── logic.js      # Application logic and state management
+└── README.md     # Project documentation
+
+
+
 
 
