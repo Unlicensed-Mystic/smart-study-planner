@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="logic.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">SP</div>
+                <h1>Smart Study Planner</h1>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                <button class="nav-btn" data-section="subjects">Subjects</button>
+                <button class="nav-btn" data-section="schedule">Schedule</button>
+                <button class="nav-btn" data-section="tasks">Tasks</button>
+                <button class="nav-btn" data-section="analytics">Analytics</button>
+                <button class="nav-btn" data-section="settings">Settings</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="dashboard" class="section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Subjects</div>
+                    <div class="stat-value" id="totalSubjects">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Tasks</div>
+                    <div class="stat-value" id="pendingTasks">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Study Hours Today</div>
+                    <div class="stat-value" id="studyHours">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completion Rate</div>
+                    <div class="stat-value" id="completionRate">0%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Today's Schedule
+                    </div>
+                </div>
+                <div id="todaySchedule" class="schedule-grid"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Upcoming Deadlines
+                    </div>
+                </div>
+                <div id="upcomingDeadlines" class="task-list"></div>
+            </div>
+        </section>
+
+        <section id="subjects" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Subject Management
+                    </div>
+                    <button class="btn btn-primary" onclick="openAddSubjectModal()">+ Add Subject</button>
+                </div>
+                <div id="subjectList" class="subject-list"></div>
+            </div>
+        </section>
+
+        <section id="schedule" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Weekly Schedule Planner
+                    </div>
+                    <button class="btn btn-primary" onclick="openAddScheduleModal()">+ Add Schedule</button>
+                </div>
+                
+                <div class="week-days">
+                    <div class="day-tab active" data-day="Monday" onclick="selectDay('Monday')">Mon</div>
+                    <div class="day-tab" data-day="Tuesday" onclick="selectDay('Tuesday')">Tue</div>
+                    <div class="day-tab" data-day="Wednesday" onclick="selectDay('Wednesday')">Wed</div>
+                    <div class="day-tab" data-day="Thursday" onclick="selectDay('Thursday')">Thu</div>
+                    <div class="day-tab" data-day="Friday" onclick="selectDay('Friday')">Fri</div>
+                    <div class="day-tab" data-day="Saturday" onclick="selectDay('Saturday')">Sat</div>
+                    <div class="day-tab" data-day="Sunday" onclick="selectDay('Sunday')">Sun</div>
+                </div>
+
+                <div id="scheduleList" class="schedule-grid"></div>
+            </div>
+        </section>
+
+        <section id="tasks" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Task Manager
+                    </div>
+                    <button class="btn btn-primary" onclick="openAddTaskModal()">+ Add Task</button>
+                </div>
+                <div id="taskList" class="task-list"></div>
+            </div>
+        </section>
+
+        <section id="analytics" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Progress Analytics
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Study Time Distribution (Hours per Subject)</h3>
+                    <div class="chart-container">
+                        <div class="chart-bars" id="studyChart"></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div id="taskAnalyticsContent"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"></div>
+                        Settings & Preferences
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <div>
+                            <div class="setting-title">Dark Mode</div>
+                            <div class="setting-description">Toggle between light and dark themes</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <div>
+                            <div class="setting-title">Deadline Reminders</div>
+                            <div class="setting-description">Get notified about upcoming deadlines</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="remindersToggle" checked onchange="saveSettings()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-title">Data Management</div>
+                        <div class="setting-description">Export or reset your data</div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
+                        <button class="btn btn-danger" onclick="resetData()">Reset All Data</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="addSubjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Subject</h2>
+                <button class="close-modal" onclick="closeModal('addSubjectModal')">&times;</button>
+            </div>
+            <form id="addSubjectForm" onsubmit="addSubject(event)">
+                <div class="form-group">
+                    <label>Subject Name</label>
+                    <input type="text" id="subjectName" required>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="subjectPriority" required>
+                        <option value="high">High</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Weekly Hours</label>
+                    <input type="number" id="subjectHours" min="1" max="40" value="5" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="subjectNotes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Subject</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="addScheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Schedule</h2>
+                <button class="close-modal" onclick="closeModal('addScheduleModal')">&times;</button>
+            </div>
+            <form id="addScheduleForm" onsubmit="addSchedule(event)">
+                <div class="form-group">
+                    <label>Day</label>
+                    <select id="scheduleDay" required>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="scheduleSubject" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" id="scheduleStartTime" required>
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" id="scheduleEndTime" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Schedule</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="addTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Task</h2>
+                <button class="close-modal" onclick="closeModal('addTaskModal')">&times;</button>
+            </div>
+            <form id="addTaskForm" onsubmit="addTask(event)">
+                <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="taskSubject" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="taskType" required>
+                        <option value="assignment">Assignment</option>
+                        <option value="exam">Exam</option>
+                        <option value="project">Project</option>
+                        <option value="reading">Reading</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="datetime-local" id="taskDeadline" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="taskDescription"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Confirm Action</h2>
+                <button class="close-modal" onclick="closeModal('confirmModal')">&times;</button>
+            </div>
+            <div style="padding: 1rem 0;">
+                <p style="color: var(--text-secondary); line-height: 1.5;">
+                    Are you sure you want to delete this subject? This will also affect related schedules and tasks.
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                <button id="confirmBtn" class="btn btn-danger">Delete</button>
+                <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resetConfirmModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px; border: 2px solid var(--danger);">
+            <div class="modal-header">
+                <h2 class="modal-title" style="color: var(--danger);">Permanent Reset</h2>
+                <button class="close-modal" onclick="closeModal('resetConfirmModal')">&times;</button>
+            </div>
+            <div style="padding: 1.5rem 0;">
+                <p style="color: var(--text-primary); font-weight: 600;">Are you absolutely sure?</p>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                    This will delete ALL subjects, schedules, and tasks from LocalStorage permanently. This action cannot be undone.
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button id="finalResetBtn" class="btn btn-danger">Yes, Delete All</button>
+                <button class="btn btn-secondary" onclick="closeModal('resetConfirmModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    
+        
+</body>
+</html>
