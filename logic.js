@@ -6,19 +6,23 @@ let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
         let currentDay = 'Monday';
 
         function init() {
-            applySavedTheme(); 
-            renderDashboard();
-            renderSubjects();
-            renderSchedules();
-            renderTasks();
-            renderAnalytics();
-            checkDeadlines(); 
-            
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const today = new Date();
-            currentDay = days[today.getDay()];
-            selectDay(currentDay);
-        }
+    
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date();
+    currentDay = days[today.getDay()];
+
+    
+    applySavedTheme(); 
+    renderDashboard();
+    renderSubjects();
+    renderSchedules();
+    renderTasks();
+    renderAnalytics();
+    checkDeadlines(); 
+    
+   
+    selectDay(currentDay);
+}
 
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -55,25 +59,33 @@ let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
         }
 
         function renderDashboard() {
-            document.getElementById('totalSubjects').textContent = subjects.length;
-            document.getElementById('pendingTasks').textContent = tasks.filter(t => !t.completed).length;
-            
-            const todaySchedules = schedules.filter(s => s.day === currentDay);
-            const totalHours = todaySchedules.reduce((sum, s) => {
-                const start = new Date('2000-01-01 ' + s.startTime);
-                const end = new Date('2000-01-01 ' + s.endTime);
-                return sum + (end - start) / (1000 * 60 * 60);
-            }, 0);
-            document.getElementById('studyHours').textContent = totalHours.toFixed(1);
-            
-            const completionRate = tasks.length > 0 
-                ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100)
-                : 0;
-            document.getElementById('completionRate').textContent = completionRate + '%';
-            
-            renderTodaySchedule();
-            renderUpcomingDeadlines();
-        }
+    document.getElementById('totalSubjects').textContent = subjects.length;
+    document.getElementById('pendingTasks').textContent = tasks.filter(t => !t.completed).length;
+    
+    const todaySchedules = schedules.filter(s => s.day === currentDay);
+    const totalHours = todaySchedules.reduce((sum, s) => {
+        const start = new Date('2000-01-01 ' + s.startTime);
+        const end = new Date('2000-01-01 ' + s.endTime);
+        return sum + (end - start) / (1000 * 60 * 60);
+    }, 0);
+    document.getElementById('studyHours').textContent = totalHours.toFixed(1);
+    
+    const completionRate = tasks.length > 0 
+        ? Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100)
+        : 0;
+    document.getElementById('completionRate').textContent = completionRate + '%';
+    
+    renderTodaySchedule();
+
+    
+    const deadlineContainer = document.getElementById('upcomingDeadlines');
+    if (settings.reminders) {
+        deadlineContainer.parentElement.style.display = 'block'; 
+        renderUpcomingDeadlines();
+    } else {
+        deadlineContainer.parentElement.style.display = 'none';  
+    }
+}
 
         function renderTodaySchedule() {
             const container = document.getElementById('todaySchedule');
