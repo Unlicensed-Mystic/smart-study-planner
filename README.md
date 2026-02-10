@@ -27,22 +27,22 @@ You can access the application here: [https://unlicensed-mystic.github.io/smart-
 📝 How to Use
 Follow these steps to get the project running on your local machine:
 
-1. Clone the Repository
+* **Clone the Repository**
 Open your terminal or command prompt and run the following command:
 
 Bash
 git clone [https://github.com/unlicensed-mystic/smart-study-planner.git](https://github.com/unlicensed-mystic/smart-study-planner.git)
-2. Navigate to the Directory
+* **Navigate to the Directory**
 Bash
 cd smart-study-planner
-3. Launch the Application
+* **Launch the Application**
 Since this is a client-side application, you don't need to install any dependencies. Simply:
 
 Locate the index.html file in your file explorer.
 
 Double-click it to open it in your default web browser.
 
-4. Start Planning
+* **Start Planning**
 Go to the Subjects tab first to add your current courses.
 
 Once subjects are added, use the Schedule and Tasks tabs to organize your workload.
@@ -55,6 +55,7 @@ smart-study-planner/
 ├── styles.css    # Responsive styling and themes
 ├── logic.js      # Application logic and state management
 └── README.md     # Project documentation
+|__ screenshots/  # screenshots of the project
 
 
 
