@@ -3,7 +3,7 @@
 A sleek, interactive web application designed to help students organize their academic life. This tool allows users to manage subjects, track weekly study schedules, and monitor task deadlines with built-in progress analytics.
 
 ## 🚀 Live Demo
-You can access the application here: https://unlicensed-mystic.github.io/smart-study-planner/
+You can access the application here: [https://unlicensed-mystic.github.io/smart-study-planner/](https://unlicensed-mystic.github.io/smart-study-planner/)
 
 ---
 
